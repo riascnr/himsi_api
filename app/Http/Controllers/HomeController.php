@@ -21,6 +21,7 @@ class HomeController extends Controller
         $user = User::create([
             'name' => $request->input('name'),
             'email' => $request->input('email'),
+            'role' => 'user',
             'password' => Hash::make($request->input('password')),
         ]);
 
@@ -37,7 +38,7 @@ class HomeController extends Controller
             $token = $user->createToken('kode_rahassia')->accessToken;
             $token = $user->createToken('kode_rahassia')->plainTextToken;
 
-            return response()->json(['token' => $token], 200);
+            return response()->json(['token' => $token, 'role' => $user->role], 200);
         }
 
         throw ValidationException::withMessages([
